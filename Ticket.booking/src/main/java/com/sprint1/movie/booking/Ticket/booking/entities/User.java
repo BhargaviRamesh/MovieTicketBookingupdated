@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+
+
 @Entity
 @Table(name="UserTable")
 public class User {
@@ -20,11 +22,23 @@ public class User {
 	String password;
 	String role;
 
+	@OneToOne(targetEntity = Admin.class,cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name="adminId")
+	Admin admin;
+     
 	@OneToOne(targetEntity = Customer.class,cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "cust_id")
+	@JoinColumn(name="customerId")
 	Customer customer;
+     
 
 	public User() {}
+
+	public User(int userId, String password, String role) {
+		super();
+		this.userId = userId;
+		this.password = password;
+		this.role = role;
+	}
 
 	public User(String password, String role, Customer customer) {
 		super();
@@ -33,6 +47,22 @@ public class User {
 		this.customer = customer;
 	}
 
+
+	public User(int userId, String password, String role,Admin admin) {
+		super();
+		this.userId = userId;
+		this.password = password;
+		this.role = role;
+		this.admin = admin;
+	}
+
+	public Admin getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Admin admin) {
+		this.admin = admin;
+	}
 
 	public int getUserId() {
 		return userId;

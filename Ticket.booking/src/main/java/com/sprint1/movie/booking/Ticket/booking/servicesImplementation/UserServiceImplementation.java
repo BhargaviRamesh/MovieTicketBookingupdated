@@ -37,4 +37,9 @@ public class UserServiceImplementation implements UserService {
 		}
 	
 	}
+
+	@Override
+	public Optional<User> findById(int id) {
+		return usr.findById(id);
+	}
 }	

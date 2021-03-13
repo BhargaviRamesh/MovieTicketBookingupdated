@@ -23,11 +23,6 @@ import com.sprint1.movie.booking.Ticket.booking.service.UserService;
 @RequestMapping("/user")
 
 public class UserController {
-
-
-	
-		@Autowired
-		UserRepository userRepository;
 		
 		@Autowired
 		UserService us;
@@ -37,13 +32,9 @@ public class UserController {
 		@ResponseStatus(code = HttpStatus.CREATED)
 		public ResponseEntity<User> addUser(@RequestBody User u) {
 			ResponseEntity<User>re;
-			Optional<User> user=userRepository.findById(u.getUserId());
-			if(user.isEmpty()) {
-				us.addUser(u);
-			}	
-				re=new ResponseEntity<>(u, HttpStatus.CREATED);
-			
 
+				us.addUser(u);
+				re=new ResponseEntity<>(u, HttpStatus.CREATED);
 		 return re;
 			
 		}
@@ -52,7 +43,7 @@ public class UserController {
 		@DeleteMapping("/deleteuser/{id}")
 		public ResponseEntity<Void> deleteUser(@PathVariable("id") int id) {
 			ResponseEntity<Void>re;
-			Optional<User> user= userRepository.findById(id);
+			Optional<User> user= us.findById(id);
 			if(user.isPresent()) {
 			 us.deleteUser(id);;
 				re=new ResponseEntity<>(HttpStatus.OK);

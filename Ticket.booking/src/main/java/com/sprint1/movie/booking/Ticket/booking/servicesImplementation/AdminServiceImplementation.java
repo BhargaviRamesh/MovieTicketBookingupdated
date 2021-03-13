@@ -4,8 +4,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.sprint1.movie.booking.Ticket.booking.entities.Admin;
 import com.sprint1.movie.booking.Ticket.booking.repository.AdminRepository;
@@ -57,7 +60,7 @@ public class AdminServiceImplementation implements AdminService {
 			iar.delete(a);
 		}
 //		else {
-//			throw new CustomerDoesNotExistException("Customer with id:"+c.getCust_id()+" does not exist");
+//			throw new AdminDoesNotExistException("Customer with id:"+c.getCust_id()+" does not exist");
 //		}
 	}
 
@@ -78,4 +81,15 @@ public class AdminServiceImplementation implements AdminService {
 		}
 		return updateadmin;
 	}
+
+	public Admin ByAdminNameAndAdminContact(String adminName, String adminContact) {
+		return iar.findByAdminNameAndAdminContact(adminName, adminContact);
+		}
+
+	@Override
+	public Optional<Admin> findByAdminId(int id) {
+		return iar.findById(id);
+		
+	}
+	
 }

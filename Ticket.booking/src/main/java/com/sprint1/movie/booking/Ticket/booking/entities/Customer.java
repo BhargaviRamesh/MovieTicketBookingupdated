@@ -4,11 +4,13 @@ package com.sprint1.movie.booking.Ticket.booking.entities;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.LazyCollection;
@@ -20,15 +22,20 @@ public class Customer {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int customerId;
-	String customerName;
-	String address;
-	String mobileNo;
-	String email;
-	String password;
+	private int customerId;
+	@Column(nullable = false)
+	private String customerName;
+	@Column(nullable = false)
+	private String address;
+	@Column(nullable = false)
+	private String mobileNo;
+	@Column(nullable = false)
+	private String email;
+	@Column(nullable = false)
+	private String password;
 
-	//	@OneToOne
-	//	User user;
+	@OneToOne(cascade=CascadeType.ALL,targetEntity = User.class,orphanRemoval = true)
+	User user;
 
 	@OneToMany(cascade=CascadeType.ALL,targetEntity = TicketBooking.class)
 	@LazyCollection(LazyCollectionOption.FALSE)
@@ -111,11 +118,12 @@ public class Customer {
 		TicketBooking = ticketBooking;
 	}
 
-	@Override
-	public String toString() {
-		return "Customer [customerId=" + customerId + ", customerName=" + customerName + ", address=" + address
-				+ ", mobileNo=" + mobileNo + ", email=" + email + ", password=" + password + ", TicketBooking="
-				+ TicketBooking + "]";
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	@Override
@@ -124,10 +132,12 @@ public class Customer {
 		int result = 1;
 		result = prime * result + ((TicketBooking == null) ? 0 : TicketBooking.hashCode());
 		result = prime * result + ((address == null) ? 0 : address.hashCode());
+		result = prime * result + customerId;
 		result = prime * result + ((customerName == null) ? 0 : customerName.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((mobileNo == null) ? 0 : mobileNo.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}
 
@@ -150,6 +160,8 @@ public class Customer {
 				return false;
 		} else if (!address.equals(other.address))
 			return false;
+		if (customerId != other.customerId)
+			return false;
 		if (customerName == null) {
 			if (other.customerName != null)
 				return false;
@@ -170,11 +182,21 @@ public class Customer {
 				return false;
 		} else if (!password.equals(other.password))
 			return false;
+		if (user == null) {
+			if (other.user != null)
+				return false;
+		} else if (!user.equals(other.user))
+			return false;
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "Customer [customerId=" + customerId + ", customerName=" + customerName + ", address=" + address
+				+ ", mobileNo=" + mobileNo + ", email=" + email + ", password=" + password + ", user=" + user
+				+ ", TicketBooking=" + TicketBooking + "]";
+	}
 
-
-
+	
 }
 

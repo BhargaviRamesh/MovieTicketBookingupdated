@@ -25,9 +25,7 @@ import com.sprint1.movie.booking.Ticket.booking.service.AdminService;
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
-	
-		@Autowired
-		AdminRepository adminRepository;
+
 		
 		@Autowired
 		AdminService ad;
@@ -37,14 +35,10 @@ public class AdminController {
 		@ResponseStatus(code = HttpStatus.CREATED)
 		public ResponseEntity<Admin> addAdmin(@RequestBody Admin a) {
 			ResponseEntity<Admin>re;
-			Optional<Admin> admin=adminRepository.findById(a.getadminId());
-			if(admin.isEmpty()) {
+			
 				ad.addAdmin(a);
 				re=new ResponseEntity<>(a, HttpStatus.CREATED);
-			}
-			else {
-				throw new AdminAlreadyExistsException("Admin with id:"+a.getadminId()+" already exists");
-			}
+			
 			return re;
 		}
 		
@@ -54,63 +48,51 @@ public class AdminController {
 		public ResponseEntity<List<Admin>> findAllAdmins(){
 			ResponseEntity<List<Admin>>re;
 			List<Admin>admins=ad.viewAllAdmin();
-			if(admins.isEmpty()) {
-				throw new AdminNotExistsException("Admin not exists in DB currently");
-			}
-			else {
+			
 				re=new ResponseEntity<>(admins, HttpStatus.CREATED);
-			}
+			
 			return re;
 		}
 	
-		//Update admin 
+		// Update admin details 
 		
 		@PutMapping("/")
 		public ResponseEntity<Void> updateAdmin(@RequestBody Admin a) {
 			ResponseEntity<Void>re;
-			Optional<Admin> admin=adminRepository.findById(a.getadminId());
-			if(admin.isPresent()) {
+			
 				ad.updateAdmin(a);
 				re=new ResponseEntity<>(HttpStatus.OK);
-			}
-			else {
-				throw new AdminNotExistsException("Admin with id:"+a.getadminId()+" not exists in DB");
-			}
 			return re;
 		}
 		
-		//View admin by id
+		//View admin by Id
 		@GetMapping("/{id}")
 		@ResponseStatus(value = HttpStatus.OK)
 		public ResponseEntity<Admin> viewAdminById(@PathVariable("id") int id) {
 			ResponseEntity<Admin>re;
-			Optional<Admin> admin=adminRepository.findById(id);
-			if(admin.isPresent()) {
+			
 			Admin findAdmin=ad.viewAdminById(id);
 				re=new ResponseEntity<>(findAdmin,HttpStatus.OK);
-			}
-			else {
-				throw new AdminNotExistsException("Admin with id:"+id+" not exists");
-			}
+			
 			return re;
 		}
 		
 		
-		
+		//View admin by admin name and contact
 		@GetMapping("/admins/{adminName}/{adminContact}")
 		public ResponseEntity<Admin> findAdminByAdminNameAndAdminContact(@PathVariable("adminName") String adminName , @PathVariable("adminContact") String adminContact){
 			ResponseEntity<Admin>re;
-			Admin a = adminRepository.findByAdminNameAndAdminContact(adminName, adminContact);
+			Admin a = ad.ByAdminNameAndAdminContact(adminName, adminContact);
 			re=new ResponseEntity<>(a,HttpStatus.OK);
 		 return re;
 		}
 		
 		
-		//Deleting a admin by id
+		//Deleting a admin by Id
 		@DeleteMapping("/deleteadmin/{id}")
 		public ResponseEntity<Void> deleteAdmin(@PathVariable("id") int id) {
 			ResponseEntity<Void>re;
-			Optional<Admin> admin=adminRepository.findById(id);
+			Optional<Admin> admin=ad.findByAdminId(id);
 			if(admin.isPresent()) {
 			 ad.deleteAdmin(id);;
 				re=new ResponseEntity<>(HttpStatus.OK);

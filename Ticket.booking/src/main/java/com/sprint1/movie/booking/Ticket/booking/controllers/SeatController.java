@@ -21,7 +21,10 @@ import com.sprint1.movie.booking.Ticket.booking.exceptions.SeatNotExistsExceptio
 import com.sprint1.movie.booking.Ticket.booking.repository.SeatRepository;
 import com.sprint1.movie.booking.Ticket.booking.servicesImplementation.SeatServiceImplementation;
 
+import io.swagger.annotations.Api;
+
 @RestController
+@Api(value = "Seat", tags = { "SeatAPI" })
 @RequestMapping(value = "/seat")
 public class SeatController {
 	

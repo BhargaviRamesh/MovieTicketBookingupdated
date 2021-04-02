@@ -22,7 +22,10 @@ import com.sprint1.movie.booking.Ticket.booking.repository.ScreenRepository;
 import com.sprint1.movie.booking.Ticket.booking.repository.TheatreRepository;
 import com.sprint1.movie.booking.Ticket.booking.servicesImplementation.ScreenServiceImplementation;
 
+import io.swagger.annotations.Api;
+
 @RestController
+@Api(value = "Screen", tags = { "ScreenAPI" })
 @RequestMapping(value = "/screen")
 public class ScreenController {
 

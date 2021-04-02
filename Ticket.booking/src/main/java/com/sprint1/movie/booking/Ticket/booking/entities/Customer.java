@@ -39,7 +39,7 @@ public class Customer {
 
 	@OneToMany(cascade=CascadeType.ALL,targetEntity = TicketBooking.class)
 	@LazyCollection(LazyCollectionOption.FALSE)
-	List<TicketBooking> TicketBooking;
+	List<TicketBooking> ticketBooking;
 
 	public Customer() {}
 
@@ -111,11 +111,11 @@ public class Customer {
 	}
 
 	public List<TicketBooking> getTicketBooking() {
-		return TicketBooking;
+		return ticketBooking;
 	}
 
 	public void setTicketBooking(List<TicketBooking> ticketBooking) {
-		TicketBooking = ticketBooking;
+		this.ticketBooking = ticketBooking;
 	}
 
 	public User getUser() {
@@ -130,7 +130,7 @@ public class Customer {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((TicketBooking == null) ? 0 : TicketBooking.hashCode());
+		result = prime * result + ((ticketBooking == null) ? 0 : ticketBooking.hashCode());
 		result = prime * result + ((address == null) ? 0 : address.hashCode());
 		result = prime * result + customerId;
 		result = prime * result + ((customerName == null) ? 0 : customerName.hashCode());
@@ -150,10 +150,10 @@ public class Customer {
 		if (getClass() != obj.getClass())
 			return false;
 		Customer other = (Customer) obj;
-		if (TicketBooking == null) {
-			if (other.TicketBooking != null)
+		if (ticketBooking == null) {
+			if (other.ticketBooking != null)
 				return false;
-		} else if (!TicketBooking.equals(other.TicketBooking))
+		} else if (!ticketBooking.equals(other.ticketBooking))
 			return false;
 		if (address == null) {
 			if (other.address != null)
@@ -194,9 +194,8 @@ public class Customer {
 	public String toString() {
 		return "Customer [customerId=" + customerId + ", customerName=" + customerName + ", address=" + address
 				+ ", mobileNo=" + mobileNo + ", email=" + email + ", password=" + password + ", user=" + user
-				+ ", TicketBooking=" + TicketBooking + "]";
+				+ ", TicketBooking=" + ticketBooking + "]";
 	}
 
-	
 }
 

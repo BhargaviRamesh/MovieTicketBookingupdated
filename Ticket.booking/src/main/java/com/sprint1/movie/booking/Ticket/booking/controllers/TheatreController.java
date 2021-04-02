@@ -19,7 +19,10 @@ import com.sprint1.movie.booking.Ticket.booking.exceptions.TheatreNotExistsExcep
 import com.sprint1.movie.booking.Ticket.booking.repository.TheatreRepository;
 import com.sprint1.movie.booking.Ticket.booking.servicesImplementation.TheatreServiceImplementation;
 
+import io.swagger.annotations.Api;
+
 @RestController
+@Api(value = "Theatre", tags = { "TheatreAPI" })
 @RequestMapping(value = "/theatre")
 public class TheatreController {
 	

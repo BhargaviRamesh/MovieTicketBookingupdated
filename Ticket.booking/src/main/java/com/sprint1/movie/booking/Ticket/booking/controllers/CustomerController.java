@@ -23,7 +23,10 @@ import com.sprint1.movie.booking.Ticket.booking.repository.CustomerRepostitory;
 import com.sprint1.movie.booking.Ticket.booking.service.CustomerService;
 import com.sprint1.movie.booking.Ticket.booking.servicesImplementation.CustomerServiceImplementation;
 
+import io.swagger.annotations.Api;
+
 @RestController
+@Api(value = "Customer", tags = { "CustomerAPI" })
 @RequestMapping(value = "customer")
 public class CustomerController {
 

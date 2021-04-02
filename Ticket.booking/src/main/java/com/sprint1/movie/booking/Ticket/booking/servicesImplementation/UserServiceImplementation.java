@@ -20,7 +20,7 @@ public class UserServiceImplementation implements UserService {
 	
       Optional<User> users = null;
 
-	
+	//implementations
    public void addUser(User user) {
 	   users = usr.findById(user.getUserId());
 	    if(users.isEmpty()) {

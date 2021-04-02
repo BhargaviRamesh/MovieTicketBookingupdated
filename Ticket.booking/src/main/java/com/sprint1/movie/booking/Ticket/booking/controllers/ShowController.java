@@ -25,7 +25,10 @@ import com.sprint1.movie.booking.Ticket.booking.repository.ScreenRepository;
 import com.sprint1.movie.booking.Ticket.booking.repository.ShowRepository;
 import com.sprint1.movie.booking.Ticket.booking.servicesImplementation.ShowServiceImplementation;
 
+import io.swagger.annotations.Api;
+
 @RestController
+@Api(value = "Show", tags = { "ShowAPI" })
 @RequestMapping(value = "/show")
 public class ShowController {
 

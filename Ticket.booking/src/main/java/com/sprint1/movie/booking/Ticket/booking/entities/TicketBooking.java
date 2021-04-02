@@ -3,8 +3,10 @@ package com.sprint1.movie.booking.Ticket.booking.entities;
 
 
 import java.time.LocalDate;
+import java.util.Random;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,15 +18,20 @@ public class TicketBooking {
 
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int ticketId;
-	int showId;
-	LocalDate bookingDate;
-	int transactionId;
-	String transactionMode;
-	String transactionStatus;
-	double totalCost;
+	private int ticketId;
+	@Column(nullable = false)
+	private int showId;
+	
+	private LocalDate bookingDate;
+
+	Random rnd = new Random();
+	private  int transactionId = rnd.nextInt(999999);
+	
+	private String transactionMode;
+	private String transactionStatus;
+	private double totalCost;
 	@OneToOne(cascade = CascadeType.ALL,targetEntity = Ticket.class)
-	Ticket ticket;
+	private Ticket ticket;
 
 	
 	public TicketBooking() {
@@ -32,12 +39,21 @@ public class TicketBooking {
 	}
 	
 
-	public TicketBooking(int showId, LocalDate bookingDate, int transactionId, String transactionMode,
-			String transactionStatus, double totalCost, Ticket ticket) {
-		this.bookingDate = bookingDate;
+	public TicketBooking(int showId, Ticket ticket) {
+		this.bookingDate = LocalDate.now();
 		this.showId = showId;
 		this.ticket = ticket;
-		this.totalCost = totalCost;
+		this.totalCost = this.ticket.getNoOfSeats()*150;
+	}
+
+	
+	
+	public TicketBooking(int ticketId, int showId, int transactionId, String transactionMode,
+			String transactionStatus, double totalCost, Ticket ticket) {
+		super();
+		this.ticketId = ticketId;
+		this.showId = showId;
+		this.bookingDate = LocalDate.now();
 		this.transactionId = transactionId;
 		this.transactionMode = transactionMode;
 		this.transactionStatus = transactionStatus;
@@ -45,13 +61,11 @@ public class TicketBooking {
 		this.ticket = ticket;
 	}
 
-	
-	public TicketBooking(int ticketId, int showId, LocalDate bookingDate, int transactionId, String transactionMode,
+
+	public TicketBooking(int showId, int transactionId, String transactionMode,
 			String transactionStatus, double totalCost, Ticket ticket) {
 		super();
-		this.ticketId = ticketId;
 		this.showId = showId;
-		this.bookingDate = bookingDate;
 		this.transactionId = transactionId;
 		this.transactionMode = transactionMode;
 		this.transactionStatus = transactionStatus;
@@ -77,7 +91,7 @@ public class TicketBooking {
 	}
 
 	public LocalDate getBookingDate() {
-		return bookingDate;
+		return this.bookingDate;
 	}
 
 	public void setBookingDate(LocalDate bookingDate) {
@@ -128,7 +142,7 @@ public class TicketBooking {
 	public String toString() {
 		return "TicketBooking [ticketId=" + ticketId + ", showId=" + showId + ", bookingDate=" + bookingDate
 				+ ", transactionId=" + transactionId + ", transactionMode=" + transactionMode + ", transactionStatus="
-				+ transactionStatus + ", totalCost=" + totalCost + ", ticket=" + ticket + "]";
+				+ transactionStatus + ", totalCost=" + totalCost + ", ticket=" + ticket + "]\n";
 	}
 
 	@Override

@@ -12,7 +12,7 @@ public interface UserService {
 	
 	
 
-		
+		//Methods
 		@Transactional
 		public void addUser(User user);
 		public void deleteUser(int id);

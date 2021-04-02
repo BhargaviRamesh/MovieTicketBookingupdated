@@ -4,13 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.sprint1.movie.booking.Ticket.booking.entities.Admin;
+import com.sprint1.movie.booking.Ticket.booking.entities.User;
+import com.sprint1.movie.booking.Ticket.booking.exceptions.AdminNotExistsException;
 import com.sprint1.movie.booking.Ticket.booking.repository.AdminRepository;
 import com.sprint1.movie.booking.Ticket.booking.service.AdminService;
 
@@ -18,39 +17,42 @@ import com.sprint1.movie.booking.Ticket.booking.service.AdminService;
 public class AdminServiceImplementation implements AdminService {
 	@Autowired
 	AdminRepository iar;
-	
-	Optional<Admin> admins = null;
-	
+
 	//Adding a Admin
 	public void addAdmin(Admin a)   {
-		admins = iar.findById(a.getadminId());
-		if(admins.isEmpty()) {
-			iar.save(a);
-		}
-//		else {
-//			 
-//			 new AdminAlreadyExistsException("Admin with id:"+a.getadminId()+" already exists");
-//		}
+
+		User user = new User("EmailId","Password","Admin");
+		a.setUser(user);
+		iar.save(a);
+
 	}
-	
+	//finding an admin
+	public Optional<Admin> findByAdminId(int id) {
+		Optional<Admin> admin = iar.findById(id);
+		return admin;
+	}
+
+
 	//Viewing all admins
 	public List<Admin> viewAllAdmin() {
-		List<Admin> admins = iar.findAll();
-		return admins;
+		return iar.findAll();
 	}
 
 	//Viewing customer by id
 	public Admin viewAdminById(int id) {
-		
+
 		Optional<Admin> admin = iar.findById(id);
 		Admin a = null;
 		if(admin.isPresent()) {
 			a = admin.get();
 		}
-		
+		else {
+			throw new AdminNotExistsException("Admin not exists with id"+id);
+		}
+
 		return a;
 	}
-	
+
 	//Deleting a customer
 	public void deleteAdmin(int id){
 		Optional<Admin> admin = iar.findById(id);
@@ -59,9 +61,9 @@ public class AdminServiceImplementation implements AdminService {
 			a = admin.get();
 			iar.delete(a);
 		}
-//		else {
-//			throw new AdminDoesNotExistException("Customer with id:"+c.getCust_id()+" does not exist");
-//		}
+		else {
+			throw new AdminNotExistsException("Admin not exists with id"+id);
+		}
 	}
 
 	//Update
@@ -73,23 +75,21 @@ public class AdminServiceImplementation implements AdminService {
 			updateadmin = getAdmin.get();
 			if(admin.getadminName()!=null) {
 				updateadmin.setadminName(admin.getadminName());
-			}
-			if(admin.getadminContact()!=null) {
+			  if(admin.getadminContact()!=null) {
 				updateadmin.setadminContact(admin.getadminContact());
+			  }
 			}
-			
+
+		}
+		else {
+			throw new AdminNotExistsException("Admin not exists with id"+admin.getadminId());
 		}
 		return updateadmin;
 	}
 
-	public Admin ByAdminNameAndAdminContact(String adminName, String adminContact) {
-		return iar.findByAdminNameAndAdminContact(adminName, adminContact);
-		}
-
-	@Override
-	public Optional<Admin> findByAdminId(int id) {
-		return iar.findById(id);
-		
+	public Admin ByAdminNameAndAdminContact(String adminName,String contact) {
+		return iar.findByAdminNameAndAdminContact(adminName, contact);
 	}
-	
+
+
 }

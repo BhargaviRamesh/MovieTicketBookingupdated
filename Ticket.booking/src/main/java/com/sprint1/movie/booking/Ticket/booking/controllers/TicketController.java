@@ -20,7 +20,10 @@ import com.sprint1.movie.booking.Ticket.booking.exceptions.TicketNotExistsExcept
 import com.sprint1.movie.booking.Ticket.booking.repository.TicketRepository;
 import com.sprint1.movie.booking.Ticket.booking.servicesImplementation.TicketServiceImplementation;
 
+import io.swagger.annotations.Api;
+
 @RestController
+@Api(value = "Ticket", tags = { "TicketAPI" })
 @RequestMapping(value = "/ticket")
 public class TicketController {
 	

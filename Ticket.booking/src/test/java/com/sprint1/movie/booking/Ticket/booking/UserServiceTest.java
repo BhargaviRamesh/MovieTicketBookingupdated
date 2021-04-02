@@ -1,8 +1,8 @@
 package com.sprint1.movie.booking.Ticket.booking;
 
-import javax.persistence.NoResultException;
 
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,22 +15,33 @@ import com.sprint1.movie.booking.Ticket.booking.service.UserService;
 @Configurable
 @SpringBootTest
 public class UserServiceTest {
+	Logger log = org.slf4j.LoggerFactory.getLogger(UserServiceTest.class);
 	@Autowired
 	UserService userService;
-	
-//	@Test
+
+		@Test
 	void testaddUser() {
-		
+
 		try {
-			User us = new User("root","admin");
+			User us = new User("a@mail.com","root","admin");
 			userService.addUser(us);
 
 		}
-		catch(NoResultException e) {
-			e.printStackTrace();
+		catch(Exception e) {
+			log.info(e.getMessage());
 		}
 	}
-	
+	//	@Test
+	void testRemoveUser() {
+		try{
+			int id=5;
+			userService.deleteUser(id);
+		}
+		catch(Exception e) {
+			log.info(e.getMessage());
+		}
+	}
+
 }
 
 

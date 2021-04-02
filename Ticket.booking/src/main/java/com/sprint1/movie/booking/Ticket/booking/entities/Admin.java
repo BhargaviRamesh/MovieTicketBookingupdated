@@ -9,18 +9,21 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import io.swagger.annotations.ApiModel;
+
 @Entity
 @Table(name = "admin")
+@ApiModel("List of Admin")
 public class Admin {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    //Fields
+	//Fields
 	private int adminId;
 	@Column(nullable = false)
 	private String adminName;
 	@Column(nullable = false)
 	private String adminContact;
-	
+
 	@OneToOne(cascade=CascadeType.ALL,targetEntity = User.class,orphanRemoval = true)
 	User user;
 
@@ -39,7 +42,7 @@ public class Admin {
 		this.adminName = adminName;
 		this.adminContact = adminContact;
 	}
-	
+
 	public Admin(int adminId, String adminName, String adminContact, User user) {
 		super();
 		this.adminId = adminId;
@@ -54,8 +57,8 @@ public class Admin {
 	public void setadminId(int adminId) {
 		this.adminId = adminId;
 	}
-	
-	
+
+
 	public String getadminName() {
 		return adminName;
 	}
@@ -68,7 +71,7 @@ public class Admin {
 	public void setadminContact(String adminContact) {
 		this.adminContact = adminContact;
 	}
-	
+
 	public User getUser() {
 		return user;
 	}
@@ -115,9 +118,9 @@ public class Admin {
 		return "Admin [adminId=" + adminId + ", adminName=" + adminName + ", adminContact=" + adminContact + ", user="
 				+ user + "]";
 	}
-	
-	
-	
-	
-    
+
+
+
+
+
 }

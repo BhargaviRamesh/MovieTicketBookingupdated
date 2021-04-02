@@ -7,24 +7,40 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import io.swagger.annotations.ApiModel;
+
 
 
 @Entity
 @Table(name="UserTable")
+@ApiModel("List of Users")
 public class User {
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	//Fields
 	private int userId;
+	private String emailId;
 	private String password;
 	private String role;
 
+	//Constructors
 	public User() {}
 
 
-	public User(String password, String role) {
+	public User(String emailId,String password, String role) {
 		super();
+		this.emailId = emailId;
 		this.password = password;
 		this.role = role;
+	}
+	//Getters and Setters
+	public String getEmailId() {
+		return emailId;
+	}
+
+
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
 	}
 
 
@@ -57,6 +73,7 @@ public class User {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((emailId == null) ? 0 : emailId.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((role == null) ? 0 : role.hashCode());
 		result = prime * result + userId;
@@ -73,6 +90,11 @@ public class User {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
+		if (emailId == null) {
+			if (other.emailId != null)
+				return false;
+		} else if (!emailId.equals(other.emailId))
+			return false;
 		if (password == null) {
 			if (other.password != null)
 				return false;
@@ -94,5 +116,5 @@ public class User {
 		return "User [userId=" + userId + ", password=" + password + ", role=" + role + "]";
 	}
 
-	
+
 }
